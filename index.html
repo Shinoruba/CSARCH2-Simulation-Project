@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cache Simulator (Full Associative / MRU)</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="project-info">Cache Simulator (Full Associative / MRU)</h1>
+        <h2 class="group-info">CSARCH2 S13 Simulation Project - Group 4</h2>
+        <div class="input-section">
+            <label for="blockSize">Block Size:</label>
+            <input type="number" id="blockSize" min="1" required>
+
+            <label for="mmSize">Main Memory Size:</label>
+            <input type="number" id="mmSize" min="1" required>
+            <select id="mmSizeUnit">
+                <option value="blocks">Blocks</option>
+                <option value="words">Words</option>
+            </select>
+
+            <label for="cacheSize">Cache Memory Size:</label>
+            <input type="number" id="cacheSize" min="1" required>
+            <select id="cacheSizeUnit">
+                <option value="blocks">Blocks</option>
+                <option value="words">Words</option>
+            </select>
+
+            <label for="programFlow">Program Flow:</label>
+            <input type="text" id="programFlow" placeholder="Enter comma-separated values" required>
+            <select id="programFlowUnit">
+                <option value="blocks">Blocks</option>
+                <option value="words">Words</option>
+            </select>
+
+            <label for="cacheAccessTime">Cache Access Time (ns):</label>
+            <input type="number" id="cacheAccessTime" min="0" step="0.1" required>
+
+            <label for="memoryAccessTime">Memory Access Time (ns):</label>
+            <input type="number" id="memoryAccessTime" min="0" step="0.1" required>
+
+            <button id="simulate">Simulate</button>
+        </div>
+        <div class="output-section">
+            <h2>Results</h2>
+            <p>Number of Cache Hits: <span id="cacheHits"></span></p>
+            <p>Number of Cache Misses: <span id="cacheMisses"></span></p>
+            <p>Miss Penalty: <span id="missPenalty"></span> ns</p>
+            <p>Average Memory Access Time: <span id="avgAccessTime"></span> ns</p>
+            <p>Total Memory Access Time: <span id="totalAccessTime"></span> ns</p>
+            <h3>Cache Memory Snapshot</h3>
+            <div id="cacheSnapshot"></div>
+            <button id="downloadResults">Download Results</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
