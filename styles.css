@@ -91,3 +91,38 @@ button:hover {
     font-weight: bold;
     color: #4A4A4A;
 }
+
+
+.simulation-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.memory-sequence {
+    width: 40%;
+}
+
+#simulationSteps {
+    width: 55%;
+}
+
+.memory-sequence table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.memory-sequence th, .memory-sequence td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.memory-sequence th {
+    background-color: #6B8E23;
+    color: white;
+}
+
+.memory-sequence tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
