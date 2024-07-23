@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function()
     downloadButton.addEventListener('click', downloadResults);
 });
 
-function runSimulation() {
+function runSimulation() 
+{
     const blockSize = parseInt(document.getElementById('blockSize').value);
     const mmSize = parseInt(document.getElementById('mmSize').value);
     const mmSizeUnit = document.getElementById('mmSizeUnit').value;
@@ -20,7 +21,7 @@ function runSimulation() {
 
     const results = simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, programFlow, programFlowUnit, cacheAccessTime, memoryAccessTime);
 
-    // Display results
+    // Display results here
     document.getElementById('cacheHits').textContent = results.cacheHits;
     document.getElementById('cacheMisses').textContent = results.cacheMisses;
     document.getElementById('missPenalty').textContent = results.missPenalty.toFixed(2);
@@ -28,7 +29,7 @@ function runSimulation() {
     document.getElementById('totalAccessTime').textContent = results.totalAccessTime.toFixed(2);
     document.getElementById('cacheSnapshot').innerHTML = results.cacheSnapshot;
 
-    // Display simulation steps and memory access sequence
+    // [NEW FEATURE] This will display simulation steps and memory access sequence
     const stepsContainer = document.getElementById('simulationSteps');
     stepsContainer.innerHTML = '';
     
@@ -95,12 +96,13 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
     let memoryAccessSequence = [];
     let simulationSteps = [];
 
-    for (let access of programFlow) {
+    for(let access of programFlow)
+    {
         const block = programFlowUnit === 'words' ? Math.floor(access / blockSize) : access;
         const cacheStateBefore = [...cache];
-
-        if (cache.includes(block)) {
-            cacheHits++; // Cache hit
+        if(cache.includes(block)) 
+        {
+            cacheHits++;
             const index = cache.indexOf(block);
             cacheAge[index] = 0;
             memoryAccessSequence.push({ seq: access, hit: true, block });
@@ -110,11 +112,13 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
                 cacheState: cacheStateBefore,
                 newCacheState: [...cache],
             });
-        } else {
-            cacheMisses++; // Cache miss
+        } 
+        else 
+        {
+            cacheMisses++;
             const emptyIndex = cache.indexOf(null);
-            if (emptyIndex !== -1) {
-                // If empty spot, use it
+            if(emptyIndex !== -1) // If empty spot, use it
+            {
                 cache[emptyIndex] = block;
                 cacheAge[emptyIndex] = 0;
                 memoryAccessSequence.push({ seq: access, hit: false, block, replacedIndex: emptyIndex });
@@ -125,7 +129,9 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
                     newCacheState: [...cache],
                     replacedIndex: emptyIndex
                 });
-            } else {
+            } 
+            else 
+            {
                 // Else, replace the most recently used (mru)
                 const mruIndex = cacheAge.indexOf(Math.min(...cacheAge));
                 cache[mruIndex] = block;
@@ -140,7 +146,7 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
                 });
             }
         }
-        cacheAge = cacheAge.map(age => age + 1); // Increment age for all blocks
+        cacheAge = cacheAge.map(age => age + 1);
     }
 
     // Calculate results for the output
@@ -148,8 +154,6 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
     const hitRate = cacheHits / programFlow.length;
     const avgAccessTime = (hitRate * cacheAccessTime) + (1 - hitRate) * missPenalty;
     const totalAccessTime = cacheHits * blockSize * cacheAccessTime + cacheMisses * blockSize * memoryAccessTime + cacheMisses * cacheAccessTime;
-
-    // Prepare cache snapshot
     const cacheSnapshot = cache.map((block, index) =>
         `Block ${index}: ${block !== null ? block : 'Empty'}`
     ).join('<br>');
@@ -166,13 +170,34 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
     };
 }
 
-function downloadResults() {
-    const results = document.querySelector('.output-section').innerText;
-    const blob = new Blob([results], { type: 'text/plain' });
+function downloadResults() 
+{
+    const cacheHits = document.getElementById('cacheHits').textContent.trim();
+    const cacheMisses = document.getElementById('cacheMisses').textContent.trim();
+    const missPenalty = document.getElementById('missPenalty').textContent.trim();
+    const avgAccessTime = document.getElementById('avgAccessTime').textContent.trim();
+    const totalAccessTime = document.getElementById('totalAccessTime').textContent.trim();
+    const cacheSnapshot = document.getElementById('cacheSnapshot').innerHTML
+        .replace(/<br\s*\/?>/gi, '\n')  // Convert <br> tags to newlines
+        .replace(/<\/?[^>]+>/gi, '');   // Remove remaining HTML tags
+
+    const resultsContent = 
+`Results:
+
+Number of Cache Hits: ${cacheHits}
+Number of Cache Misses: ${cacheMisses}
+Miss Penalty: ${missPenalty} ns
+Average Memory Access Time: ${avgAccessTime} ns
+Total Memory Access Time: ${totalAccessTime} ns
+
+Cache Memory Snapshot:
+${cacheSnapshot}
+`;
+    const blob = new Blob([resultsContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'csarch2_s13_simulationproject_group4.txt';
+    a.download = 'csarch2_s13_simulationproject_group4_results.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
