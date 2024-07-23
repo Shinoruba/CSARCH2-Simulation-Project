@@ -76,7 +76,7 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
     const missPenalty = cacheAccessTime + memoryAccessTime*blockSize + cacheAccessTime 
     const hitRate = cacheHits / programFlow.length 
     const avgAccessTime = (hitRate * cacheAccessTime) + (1 - hitRate) * missPenalty 
-    const totalAccessTime = cacheHits * 2 * cacheAccessTime + cacheMisses * missPenalty + cacheMisses * cacheAccessTime
+    const totalAccessTime = cacheHits * blockSize * cacheAccessTime + cacheMisses * blockSize * memoryAccessTime + cacheMisses * cacheAccessTime
 
     // Prepare cache snapshot
     const cacheSnapshot = cache.map((block, index) => 
