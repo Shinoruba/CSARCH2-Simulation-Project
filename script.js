@@ -29,8 +29,8 @@ function runSimulation()
     document.getElementById('totalAccessTime').textContent = results.totalAccessTime.toFixed(2);
     document.getElementById('cacheSnapshot').innerHTML = results.cacheSnapshot;
 
-    // [NEW FEATURE] This will display simulation steps and memory access sequence
-    const stepsContainer = document.getElementById('simulationSteps');
+    // [NEW FEATURE] This will display simulation steps and memory access sequence skibidi toilet
+    const stepsContainer = document.getElementById('simulationProcess');
     stepsContainer.innerHTML = '';
     
     const sequenceTable = document.createElement('table');
@@ -55,20 +55,19 @@ function runSimulation()
 
     const sequenceContainer = document.createElement('div');
     sequenceContainer.className = 'memory-sequence';
-    sequenceContainer.innerHTML = '<h3>Memory Access Sequence</h3>';
     sequenceContainer.appendChild(sequenceTable);
 
-    results.simulationSteps.forEach((step, index) => {
+    results.simulationProcess.forEach((step, index) => {
         const stepElement = document.createElement('div');
         stepElement.className = 'simulation-step';
         stepElement.innerHTML = `
             <h3>Step ${index + 1}: Access Block ${step.accessedBlock}</h3>
-            <p>Cache State Before: ${step.cacheState.map(block => block === null ? 'Empty' : block).join(', ')}</p>
+            <p>Cache State Before: ${step.cacheState.map(block => block === null ? '_' : block).join(' , ')}</p>
             <p style="color: ${step.hit ? 'darkgreen' : 'red'}; font-weight: bold;">
                 ${step.hit ? 'Cache Hit' : 'Cache Miss'}
             </p>
             ${step.hit ? '' : `<p>Replaced Block at Index: ${step.replacedIndex}</p>`}
-            <p>Cache State After: ${step.newCacheState.join(', ')}</p>
+            <p>Cache State After: ${step.newCacheState.join(' , ')}</p>
         `;
         stepsContainer.appendChild(stepElement);
     });
@@ -94,7 +93,7 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
     let cacheHits = 0;
     let cacheMisses = 0;
     let memoryAccessSequence = [];
-    let simulationSteps = [];
+    let simulationProcess = [];
 
     for(let access of programFlow)
     {
@@ -106,7 +105,7 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
             const index = cache.indexOf(block);
             cacheAge[index] = 0;
             memoryAccessSequence.push({ seq: access, hit: true, block });
-            simulationSteps.push({
+            simulationProcess.push({
                 accessedBlock: block,
                 hit: true,
                 cacheState: cacheStateBefore,
@@ -117,12 +116,12 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
         {
             cacheMisses++;
             const emptyIndex = cache.indexOf(null);
-            if(emptyIndex !== -1) // If empty spot, use it
+            if(emptyIndex !== -1)
             {
                 cache[emptyIndex] = block;
                 cacheAge[emptyIndex] = 0;
                 memoryAccessSequence.push({ seq: access, hit: false, block, replacedIndex: emptyIndex });
-                simulationSteps.push({
+                simulationProcess.push({
                     accessedBlock: block,
                     hit: false,
                     cacheState: cacheStateBefore,
@@ -132,12 +131,11 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
             } 
             else 
             {
-                // Else, replace the most recently used (mru)
                 const mruIndex = cacheAge.indexOf(Math.min(...cacheAge));
                 cache[mruIndex] = block;
                 cacheAge[mruIndex] = 0;
                 memoryAccessSequence.push({ seq: access, hit: false, block, replacedIndex: mruIndex });
-                simulationSteps.push({
+                simulationProcess.push({
                     accessedBlock: block,
                     hit: false,
                     cacheState: cacheStateBefore,
@@ -166,7 +164,7 @@ function simulateCache(blockSize, mmSize, mmSizeUnit, cacheSize, cacheSizeUnit, 
         totalAccessTime,
         cacheSnapshot,
         memoryAccessSequence,
-        simulationSteps
+        simulationProcess
     };
 }
 
