@@ -1,59 +1,56 @@
 # Cache Simulator (Full Associative / MRU)
-### CSARCH2 S13 - Group 4
+
+## CSARCH2 S13 - Group 4
 - Chan, Rizza
 - Homssi, Yazan
 - Valenzuela, Shanley
 
 ## Overview
-This project is a web-based simulation of a cache memory system using a full associative cache with the Most Recently Used (MRU) replacement policy. It allows users to input various parameters and simulate the cache behavior, providing outputs such as cache hits, cache misses, miss penalty, average memory access time, total memory access time, and a snapshot of the cache memory.
+
+The Cache Simulator is a web application designed to simulate the behavior of a full associative cache using the Most Recently Used (MRU) replacement policy. This tool is part of the CSARCH2 S13 Simulation Project developed by Group 4.
 
 ## Features
-- Input parameters: block size, main memory size, cache memory size, program flow, cache access time, and memory access time.
-- Output results: number of cache hits, number of cache misses, miss penalty, average memory access time, total memory access time, and cache memory snapshot.
-#### Option to download the results in a text file.
 
+- **Customizable Parameters:** Users can set the block size, main memory size, cache memory size, program flow, cache access time, and memory access time.
+- **Simulation Process:** The application provides a detailed simulation process, displaying cache hits, misses, and the current state of the cache memory.
+- **Results Display:** Key metrics such as the number of cache hits, cache misses, miss penalty, average memory access time, and total memory access time are presented after the simulation.
+- **Download Results:** Users can download the simulation results as a text file.
 
-## Usage
-- Open index.html in a web browser.
-- Fill in the input fields with the appropriate values:
-  - Block Size (in words)
-  - Main Memory Size (select blocks or words)
-  - Cache Memory Size (select blocks or words)
-  - Program Flow (comma-separated values, select blocks or words)
-  - Cache Access Time (in nanoseconds)
-  - Memory Access Time (in nanoseconds)
-- Click the "Simulate" button to run the simulation.
-- View the results in the output section.
-- Click the "Download Results" button to save the results as a text file.
+## Getting Started
 
-## Input Fields
-- Block Size: Size of each block in words.
-- Main Memory Size: Total size of the main memory (select blocks or words).
-- Cache Memory Size: Total size of the cache memory (select blocks or words).
-- Program Flow: Sequence of memory accesses to be simulated (comma-separated values, select blocks or words).
-- Cache Access Time: Time taken to access the cache memory (in nanoseconds).
-- Memory Access Time: Time taken to access the main memory (in nanoseconds).
+You may access the site online through this link: [Cache Simulator](https://cache-simulator-orpin.vercel.app/).  
+For offline use, open `index.html`.
 
-## Output
-- Number of Cache Hits: The number of times the requested data was found in the cache.
-- Number of Cache Misses: The number of times the requested data was not found in the cache.
-- Miss Penalty: The additional time required to retrieve data from the main memory when a cache miss occurs.
-- Average Memory Access Time: The average time taken to access memory, considering both cache hits and misses.
-- Total Memory Access Time: The total time taken to access memory for all requests.
-- Cache Memory Snapshot: A snapshot of the current state of the cache memory.
+### Input Parameters:
 
-## Screenshots ( To be Updated )
+- **Block Size:** Enter the size of each block in the cache.
+- **Main Memory Size:** Enter the size of the main memory and select the unit (blocks or words).
+- **Cache Memory Size:** Enter the size of the cache memory and select the unit (blocks or words).
+- **Program Flow:** Enter the sequence of memory accesses as comma-separated values and select the unit (blocks or words).
+- **Cache Access Time:** Enter the cache access time in nanoseconds.
+- **Memory Access Time:** Enter the main memory access time in nanoseconds.
+- **Simulate:** Click the "Simulate" button to run the simulation.
 
-later pls
+### Simulation Process
+
+The simulation process is displayed, showing the detailed operations as the program flow is processed through the cache. This includes cache hits, cache misses, and the current state of the cache memory.
+
+## Results
+
+After the simulation, the results section will display:
+
+- **Number of Cache Hits:** Total cache hits during the simulation.
+- **Number of Cache Misses:** Total cache misses during the simulation.
+- **Miss Penalty:** The time penalty for a cache miss in nanoseconds.
+- **Average Memory Access Time:** The average time to access memory in nanoseconds.
+- **Total Memory Access Time:** The total time spent on memory access during the simulation.
+- **Snapshot of Cache Memory:** The values in the cache after accessing the sequence of blocks.
+Users can download the results by clicking the "Download Results" button. A text file containing the results will automatically be downloaded.
 
 ## Files
-- index.html: The main HTML file for the web interface.
-- styles.css: The CSS file for styling the web interface.
-- script.js: The JavaScript file containing the simulation logic and interactivity.
-  
-## How it Works
-The simulation logic is implemented in script.js, which handles the following:
-1. Parsing and validating user inputs.
-2. Simulating the cache behavior based on the provided inputs.
-3. Calculating the results and updating the output section.
-4. Providing an option to download the results as a text file.
+
+- **index.html:** The main HTML file containing the structure of the application.
+- **styles.css:** The CSS file for styling the application.
+- **script.js:** The JavaScript file containing the logic for the cache simulation.
+
+---
